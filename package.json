@@ -1,0 +1,20 @@
+{
+  "name": "payslip_mailer",
+  "version": "1.0.0",
+  "description": "A minimal Electron application for sending payslip mail",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "payslip",
+    "mailer"
+  ],
+  "author": "kien.do",
+  "license": "1.0.0",
+  "devDependencies": {
+    "electron": "^6.0.2"
+  }
+}
