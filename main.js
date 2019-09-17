@@ -18,7 +18,7 @@ function createWindow () {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('./contents/main-page/index.html')
+  mainWindow.loadFile('./contents/welcome-page/index.html')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -50,5 +50,6 @@ app.on('activate', function () {
   if (mainWindow === null) createWindow()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+app.on('browser-window-created',function(e,window) {
+  window.setMenu(null);
+});
