@@ -6,14 +6,15 @@
 
 <link rel="stylesheet" type="text/css" href="./index.css">
 <link rel="stylesheet" type="text/css" href="./datatables.min.css">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 
 <body>
   <div id='cssmenu'>
     <ul>
-      <li class='active'><a href='#'>Employee</a></li>
-      <li><a href='#'>Mail Template</a></li>
-      <li><a href='#'>Other Item</a></li>
+      <li class='active' id="emp-tab"><a href='#'>Employee</a></li>
+      <li id="mail-tab"><a href='#'>Mail Template</a></li>
+      <li id="other-tab"><a href='#'>Other Item</a></li>
       <li><a href='#'>Contact</a></li>
     </ul>
   </div>
@@ -21,16 +22,74 @@
     <table id="employee">
       <thead>
         <tr>
+          <th>Code</th>
           <th>Name</th>
-          <th>Position</th>
-          <th>Office</th>
-          <th>Extn.</th>
-          <th>Start date</th>
-          <th>Salary</th>
+          <th>Email</th>
+          <th>Tiền 立替 (JPY)</th>
+          <th>Chi phí đi lại (JPY)</th>
+          <th>Other (JPY)</th>
+          <th>Phiếu lương</th>
+        </tr>
+      </thead>
+    </table>
+    <div id="editor">
+      <p class="ql-align-justify"><span style="color: black;">Dear Mr/Ms:</span><strong style="color: black;">
+          {Name}</strong><span style="color: black;">,</span></p>
+      <p class="ql-align-justify"><strong style="color: black;">&nbsp;</strong></p>
+      <p class="ql-align-justify"><strong style="color: black;">Bộ phận Kế toán xin gửi Anh/Chị thông tin lương chi tiết
+          lương tháng {month/year} như sau :</strong></p>
+      <p><span style="color: black;">&nbsp;</span></p>
+      <ol>
+        <li>&nbsp;Lương SXKD và lương cơ bản vui lòng tham khảo file đính kèm.</li>
+        <li>Các khoản bù/trừ:</li>
+      </ol>
+      <ul>
+        <li><span style="color: black;">Tiền 立替:&nbsp;{changeCost} JPY&nbsp;&nbsp;&nbsp;</span></li>
+        <li><span style="color: black;">Chi phí đi lại phát sinh: </span><span
+            style="color: rgb(0, 0, 0);">{travelCost}</span><span style="color: black;"> JPY</span></li>
+        <li><span style="color: black;">{Other}: </span><span style="color: rgb(0, 0, 0);">{otherCost}</span><span
+            style="color: black;"> JPY</span></li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><span style="color: black;">Trong trường hợp phát sinh điều chỉnh, bên KT sẽ điều chỉnh vào
+          kỳ&nbsp;lương&nbsp;tháng&nbsp;sau&nbsp;&nbsp;</span></p>
+      <p>&nbsp;</p>
+      <p><span style="color: black;">Thank you</span></p>
+      <p><span style="color: black;">株式会社VIETISソリューション</span></p>
+      <p><span style="color: black;">VO THI XUAN QUYNH&nbsp;</span></p>
+      <p><br></p>
+      <p><span style="color: black;">&nbsp;&nbsp;&nbsp;</span><strong style="color: black;"><u>VietIS
+            Corporation</u></strong></p>
+      <p><span style="color: black;">&nbsp;&nbsp;5F, 3A Building,&nbsp;</span><a
+          href="https://maps.google.com/?q=82+Duy+Tan+Str,+Ha+Noi,+Viet+Nam&amp;entry=gmail&amp;source=g"
+          target="_blank" style="color: black;">82 Duy Tan Str, Ha Noi, Viet Nam</a></p>
+      <p><span style="color: black;">&nbsp;&nbsp;TEL: (84) 24 6293 9036</span></p>
+      <p><span style="color: black;">&nbsp;&nbsp;URL:&nbsp;</span><a href="https://www.vietis.com.vn/" target="_blank"
+          style="color: black;">https://www.vietis.com.vn</a></p>
+      <p><span style="color: black;">&nbsp;&nbsp;Facebook:&nbsp;</span><a
+          href="http://www.facebook.com/vietis.corporation" target="_blank"
+          style="color: black;">https://www.facebook.com/vietis.corporation</a></p>
+      <p><span style="color: black;"> </span></p>
+      <p><span style="color: black;"> </span><strong style="color: black;">&nbsp;&nbsp;&nbsp;<u>VIETIS Solution (Japan
+            Office)&nbsp;</u></strong></p>
+      <p><strong style="color: black;">　</strong><span
+          style="color: black;">〒141-0031&nbsp;品川区西五反田2-25-1インテックス五反田2F</span></p>
+      <p><span style="color: black;">　TEL: (81) 3-5759-4881</span></p>
+      <p><span style="color: black;">&nbsp;&nbsp;&nbsp;URL:&nbsp;</span><a href="https://www.vietis.com.vn/vis"
+          target="_blank" style="color: black;">https://www.vietis.com.vn/vis</a></p>
+      <p><br></p>
+      <p><br></p>
+    </div>
+    <table id="other">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
         </tr>
       </thead>
     </table>
   </div>
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <script src="./index.js"></script>
 </body>
 
