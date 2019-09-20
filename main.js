@@ -1,7 +1,13 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
+Date.prototype.yyyymm = function() {
+  var mm = this.getMonth() + 1;
 
+  return [this.getFullYear(),
+          (mm>9 ? '' : '0') + mm,
+         ].join('-');
+};
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -35,7 +41,11 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', function () {
+  require('./lib/employee-model').getEmpByMonth();
+  require('./lib/other-model').getOther();
+  createWindow();
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
