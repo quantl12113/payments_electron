@@ -1,10 +1,9 @@
-const { remote } = require('electron');
+const {
+  remote
+} = require('electron');
+const $ = require('jquery');
 
-setTimeout(()=>{
-  createMainWindow();
-}, 2000)
-
-function createMainWindow () {
+function createMainWindow() {
   const BrowserWindow = remote.BrowserWindow;
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -28,3 +27,12 @@ function createMainWindow () {
   });
   remote.getCurrentWindow().close();
 }
+
+$("#login-button").click(function (event) {
+  event.preventDefault();
+  $('form').fadeOut(500);
+  $('.wrapper').addClass('form-success');
+  setTimeout(() => {
+    createMainWindow();
+  }, 1000)
+});

@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow} = require('electron');
 const path = require('path')
 Date.prototype.yyyymm = function() {
   var mm = this.getMonth() + 1;

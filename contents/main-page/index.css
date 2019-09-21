@@ -29,7 +29,7 @@
 #cssmenu {
   width: auto;
   border-bottom: 3px solid #47c9af;
-  font-family: Raleway, sans-serif;
+  font-family: "Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
   line-height: 1;
 }
 
@@ -114,9 +114,31 @@
 }
 
 .dataTables_scrollBody {
-  max-height: 450px !important;
+  max-height: 420px !important;
+}
+html{
+  font-size: 85%;
 }
 
 .ql-toolbar {
   display: none;
+}
+
+#loading {
+  position: absolute;
+  margin-left: 590px;
+  margin-top: 200px;
+}
+
+#footer {
+  text-align: center;
+}
+
+button {
+  margin: 10px !important;
+  background-color: #47c9af !important;
+}
+
+body {
+  padding: 0 5px;
 }

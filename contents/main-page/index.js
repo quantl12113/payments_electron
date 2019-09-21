@@ -1,71 +1,63 @@
 const {remote} = require('electron');
-const $ = require('jquery');
-require('jszip');
-require('pdfmake');
-require('datatables.net-zf')(window, $);
-require('datatables.net-autofill-zf')(window, $);
-require('datatables.net-buttons-zf')(window, $);
-require('datatables.net-buttons/js/buttons.colVis.js')(window, $);
-require('datatables.net-buttons/js/buttons.flash.js')(window, $);
-require('datatables.net-buttons/js/buttons.html5.js')(window, $);
-require('datatables.net-buttons/js/buttons.print.js')(window, $);
-require('datatables.net-colreorder-zf')(window, $);
-require('datatables.net-fixedcolumns-zf')(window, $);
-require('datatables.net-fixedheader-zf')(window, $);
-require('datatables.net-keytable-zf')(window, $);
-require('datatables.net-responsive-zf')(window, $);
-require('datatables.net-rowgroup-zf')(window, $);
-require('datatables.net-rowreorder-zf')(window, $);
-require('datatables.net-scroller-zf')(window, $);
-require('datatables.net-select-zf')(window, $);
+const {BrowserWindow} = remote;
 const empModel = remote.require('./lib/employee-model');
 const otherModel = remote.require('./lib/other-model');
 
 let empData = new Array;
 let otherData = new Array;
-$.each(empModel.employee, function (index, value) {
-  var tempArray = new Array;
-  tempArray.push(value.code);
-  tempArray.push(value.name);
-  tempArray.push(value.email);
-  tempArray.push(value.change_cost);
-  tempArray.push(value.travel_cost);
-  tempArray.push(value.other_cost);
-  tempArray.push(value.attach_file);
-  tempArray.push(formatYYYYMM(value.date));
-  empData.push(tempArray);
-})
-$.each(otherModel.otherItems, function (index, value) {
-  var tempArray = new Array;
-  tempArray.push(value.id);
-  tempArray.push(value.value);
-  otherData.push(tempArray);
-})
+
 $(document).ready(function () {
-  $('#employee').DataTable({
-    data: empData,
+  $.each(empModel.employee, function (index, value) {
+    var tempArray = new Array;
+    tempArray.push(value.code);
+    tempArray.push(value.name);
+    tempArray.push(value.email);
+    tempArray.push(value.change_cost);
+    tempArray.push(value.travel_cost);
+    tempArray.push(value.otherName);
+    tempArray.push(value.other_cost);
+    tempArray.push(value.attach_file);
+    tempArray.push(formatYYYYMM(value.date));
+    empData.push(tempArray);
+  })
+  $.each(otherModel.otherItems, function (index, value) {
+    var tempArray = new Array;
+    tempArray.push(value.id);
+    tempArray.push(value.value);
+    otherData.push(tempArray);
+  });
+  let empTable = $('#employee').DataTable({
+    // data: empData,
+    "iDisplayLength": 25,
     "bProcessing": true,
     "bDestroy": true,
     "bAutoWidth": true,
     "sScrollY": "500px",
-    "bScrollCollapse": true,
+    "bScrollCollapse": false,
     "bSort": true,
+    "select": true,
     "sPaginationType": "full_numbers",
+    "initComplete": function( settings, json ) {
+      $('#other').DataTable({
+        // data: otherData,
+        "iDisplayLength": 25,
+        "bProcessing": true,
+        "bDestroy": true,
+        "bAutoWidth": true,
+        "sScrollY": "500px",
+        "bScrollCollapse": false,
+        "bSort": true,
+        "select": true,
+        "sPaginationType": "full_numbers",
+        "initComplete": function( settings, json ) {
+          $('#loading').remove();
+        }
+      });
+    }
   });
 
   var quill = new Quill('#editor', {
     theme: 'snow'
-  });
-
-  $('#other').DataTable({
-    data: otherData,
-    "bProcessing": true,
-    "bDestroy": true,
-    "bAutoWidth": true,
-    "sScrollY": "500px",
-    "bScrollCollapse": true,
-    "bSort": true,
-    "sPaginationType": "full_numbers",
   });
 
   $('#other_wrapper').css('display', 'none');
@@ -104,3 +96,31 @@ function formatYYYYMM(date) {
           (mm>9 ? '' : '0') + mm,
          ].join('-');
 };
+
+async function createFormEdit() {
+  // Create the browser window.
+  editForm = new BrowserWindow({parent: remote.getCurrentWindow(), width: 700, height: 600, modal: true, show: false,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+
+  // and load the index.html of the app.
+  editForm.loadFile('./contents/emp-edit-form/index.html')
+  editForm.once('ready-to-show', () => {
+    editForm.show()
+  })
+  // Open the DevTools.
+  editForm.webContents.openDevTools()
+
+  // Emitted when the window is closed.
+  editForm.on('closed', function () {
+    editForm = null
+  });
+}
+
+$('#add').click(async ()=>{
+  let result = await createFormEdit();
+  console.log(result);
+  
+})

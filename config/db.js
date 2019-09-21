@@ -5,8 +5,8 @@ var mysql = require('mysql');
 const CONFIG = {
   host: '192.168.100.8',
   user: 'root',
-  password: '',
-  database: ''
+  password: 'vietis@123',
+  database: 'payslip'
 };
 
 // Create a MySQL connection
