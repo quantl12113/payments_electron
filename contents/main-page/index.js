@@ -27,7 +27,7 @@ $(document).ready(function () {
     otherData.push(tempArray);
   });
   let empTable = $('#employee').DataTable({
-    // data: empData,
+    data: empData,
     "iDisplayLength": 25,
     "bProcessing": true,
     "bDestroy": true,
@@ -39,7 +39,7 @@ $(document).ready(function () {
     "sPaginationType": "full_numbers",
     "initComplete": function( settings, json ) {
       $('#other').DataTable({
-        // data: otherData,
+        data: otherData,
         "iDisplayLength": 25,
         "bProcessing": true,
         "bDestroy": true,
