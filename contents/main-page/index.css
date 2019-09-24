@@ -136,7 +136,17 @@ html{
 
 button {
   margin: 10px !important;
-  background-color: #47c9af !important;
+  background-color: #1ABC9C !important;
+  width: 70px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  text-align: center;
+  color: aliceblue;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #54e3c7 !important;
 }
 
 body {

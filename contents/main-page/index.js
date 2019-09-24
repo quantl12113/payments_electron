@@ -99,14 +99,14 @@ function formatYYYYMM(date) {
 
 async function createFormEdit() {
   // Create the browser window.
-  editForm = new BrowserWindow({parent: remote.getCurrentWindow(), width: 700, height: 600, modal: true, show: false,
+  editForm = new BrowserWindow({parent: remote.getCurrentWindow(), width: 520, height: 700, modal: true, show: false,
     webPreferences: {
       nodeIntegration: true
     }
   })
 
   // and load the index.html of the app.
-  editForm.loadFile('./contents/emp-edit-form/index.html')
+  editForm.loadFile('./contents/emp-create-form/index.html')
   editForm.once('ready-to-show', () => {
     editForm.show()
   })
