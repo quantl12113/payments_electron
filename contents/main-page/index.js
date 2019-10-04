@@ -1,10 +1,12 @@
-const {remote} = require('electron');
+const { remote } = require('electron');
+const { dialog } = require('electron').remote;
 const {BrowserWindow} = remote;
 const empModel = remote.require('./lib/employee-model');
 const otherModel = remote.require('./lib/other-model');
 
 let empData = new Array;
 let otherData = new Array;
+let empTable, otherTable;
 
 $(document).ready(function () {
   $.each(empModel.employee, function (index, value) {
@@ -26,7 +28,7 @@ $(document).ready(function () {
     tempArray.push(value.value);
     otherData.push(tempArray);
   });
-  let empTable = $('#employee').DataTable({
+  empTable = $('#employee').DataTable({
     data: empData,
     "iDisplayLength": 25,
     "bProcessing": true,
@@ -38,7 +40,7 @@ $(document).ready(function () {
     "select": true,
     "sPaginationType": "full_numbers",
     "initComplete": function( settings, json ) {
-      $('#other').DataTable({
+      otherTable = $('#other').DataTable({
         data: otherData,
         "iDisplayLength": 25,
         "bProcessing": true,
@@ -63,6 +65,8 @@ $(document).ready(function () {
   $('#other_wrapper').css('display', 'none');
   $('.ql-toolbar').css('display', 'none');
   $('#editor').css('display', 'none');
+  $('#footer-other-item').css('display', 'none');
+  $('#footer-mail').css('display', 'none');
 
   $('#cssmenu>ul>li>').click((e) => {
     $('.active').removeClass('active');
@@ -72,18 +76,27 @@ $(document).ready(function () {
       $('#editor').css('display', 'none');
       $('#other_wrapper').css('display', 'none');
       $('#employee_wrapper').css('display', 'block');
+      $('#footer-emp').css('display', 'block');
+      $('#footer-other-item').css('display', 'none');
+      $('#footer-mail').css('display', 'none');
     }
     if ($(e.target).parent().attr('id') === 'mail-tab') {
       $('.ql-toolbar').css('display', 'block');
       $('#editor').css('display', 'block');
       $('#employee_wrapper').css('display', 'none');
       $('#other_wrapper').css('display', 'none');
+      $('#footer-emp').css('display', 'none');
+      $('#footer-other-item').css('display', 'none');
+      $('#footer-mail').css('display', 'block');
     }
     if ($(e.target).parent().attr('id') === 'other-tab') {
       $('.ql-toolbar').css('display', 'none');
       $('#editor').css('display', 'none');
       $('#employee_wrapper').css('display', 'none');
       $('#other_wrapper').css('display', 'block');
+      $('#footer-emp').css('display', 'none');
+      $('#footer-other-item').css('display', 'block');
+      $('#footer-mail').css('display', 'none');
     }
   })
   
@@ -124,3 +137,34 @@ $('#add').click(async ()=>{
   console.log(result);
   
 })
+
+$('#delete').click(async () => {
+  var table = $('#employee').DataTable();
+
+  let selectedRows = empTable.rows('.selected');
+  let selectedRowsData = selectedRows.data();
+  if (selectedRowsData.length == 0) {
+    let options  = {
+      buttons: ["OK"],
+      message: "Please choose an Employee to delete !!"
+    }
+    dialog.showMessageBox(remote.getCurrentWindow(), options)
+  } else {
+    let options  = {
+      buttons: ["Yes", "No"],
+      message: "Are you sure to delete these employees !!"
+    }
+    let result = await dialog.showMessageBox(remote.getCurrentWindow(), options);
+    if ( result.response === 0 ) {
+      for (let i = 0; i < selectedRowsData.length; i += 1) {
+        let employeeCode = selectedRowsData[i][0];
+        try {
+          empModel.deleteEmployee(employeeCode);
+        } catch (error) {
+          dialog.showMessageBox(remote.getCurrentWindow(), {type: 'warning', message: "Can't delete " + employeeCode})
+        }
+      }
+      selectedRows.remove().draw();
+    }
+  }
+});
