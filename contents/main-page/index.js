@@ -132,13 +132,13 @@ async function createFormEdit() {
   });
 }
 
-$('#add').click(async ()=>{
+$('#footer-emp #add').click(async ()=>{
   let result = await createFormEdit();
   console.log(result);
   
 })
 
-$('#delete').click(async () => {
+$('#footer-emp #delete').click(async () => {
   var table = $('#employee').DataTable();
 
   let selectedRows = empTable.rows('.selected');
