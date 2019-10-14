@@ -42,7 +42,7 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function () {
-  require('./lib/employee-model').getEmpByMonth();
+  require('./lib/employee-model').getEmpByCurrentMonth();
   require('./lib/other-model').getOther();
   createWindow();
 })
