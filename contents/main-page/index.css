@@ -152,3 +152,7 @@ button:hover {
 body {
   padding: 0 5px;
 }
+
+#attach{
+  width: 200px !important;
+}

@@ -4,13 +4,13 @@ var mysql = require('mysql');
 // Set database connection
 const CONFIG = {
   host: '192.168.100.8',
-  // host: 'localhost',
   user: 'root',
   password: 'vietis@123',
+  // host: 'localhost',
   // password: 'root',
+  // port: 8889,
   database: 'payslip',
-  // port: 8889
-  port: 3306,
+  port: 3306
 };
 
 // Create a MySQL connection

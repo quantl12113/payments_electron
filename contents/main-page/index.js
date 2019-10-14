@@ -1,6 +1,14 @@
-const { remote } = require('electron');
-const { dialog } = require('electron').remote;
-const {BrowserWindow} = remote;
+const {
+  remote
+} = require('electron');
+const {
+  dialog
+} = remote;
+const {
+  BrowserWindow
+} = remote;
+const fs = require('fs');
+const path = require('path');
 const empModel = remote.require('./lib/employee-model');
 const otherModel = remote.require('./lib/other-model');
 
@@ -51,7 +59,7 @@ $(document).ready(function () {
         "bSort": true,
         "select": true,
         "sPaginationType": "full_numbers",
-        "initComplete": function( settings, json ) {
+        "initComplete": function (settings, json) {
           $('#loading').remove();
         }
       });
@@ -99,20 +107,25 @@ $(document).ready(function () {
       $('#footer-mail').css('display', 'none');
     }
   })
-  
+
 });
 
 function formatYYYYMM(date) {
   var mm = date.getMonth() + 1;
 
   return [date.getFullYear(),
-          (mm>9 ? '' : '0') + mm,
-         ].join('-');
+    (mm > 9 ? '' : '0') + mm,
+  ].join('-');
 };
 
 async function createFormEdit() {
   // Create the browser window.
-  editForm = new BrowserWindow({parent: remote.getCurrentWindow(), width: 520, height: 700, modal: true, show: false,
+  editForm = new BrowserWindow({
+    parent: remote.getCurrentWindow(),
+    width: 520,
+    height: 700,
+    modal: true,
+    show: false,
     webPreferences: {
       nodeIntegration: true
     }
@@ -195,3 +208,33 @@ $('#footer-other-item #delete').click(async () => {
     }
   }
 });
+
+$('#attach').click(async () => {
+  let result = await dialog.showOpenDialog(remote.getCurrentWindow(), {
+    properties: ['openDirectory']
+  })
+  if (result.filePaths.length > 0) {
+    let dirPath = result.filePaths[0];
+    let files = [];
+    await getListFilesFromDir(dirPath, '.pdf', files);
+  }
+})
+
+async function getListFilesFromDir(startPath, filter, output) {
+  if (!fs.existsSync(startPath)) {
+    console.log("no dir ", startPath);
+    return;
+  }
+
+  let files = fs.readdirSync(startPath);
+  for (let i = 0; i < files.length; i++) {
+    let filename = path.join(startPath, files[i]);
+    let stat = fs.lstatSync(filename);
+    if (stat.isDirectory()) {
+      return await getListFilesFromDir(filename, filter);
+    } else if (filename.indexOf(filter) >= 0) {
+      output.push(filename);
+    };
+  };
+  return output;
+};
