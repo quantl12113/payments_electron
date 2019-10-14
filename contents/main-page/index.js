@@ -139,8 +139,6 @@ $('#footer-emp #add').click(async ()=>{
 })
 
 $('#footer-emp #delete').click(async () => {
-  var table = $('#employee').DataTable();
-
   let selectedRows = empTable.rows('.selected');
   let selectedRowsData = selectedRows.data();
   if (selectedRowsData.length == 0) {
@@ -162,6 +160,35 @@ $('#footer-emp #delete').click(async () => {
           empModel.deleteEmployee(employeeCode);
         } catch (error) {
           dialog.showMessageBox(remote.getCurrentWindow(), {type: 'warning', message: "Can't delete " + employeeCode})
+        }
+      }
+      selectedRows.remove().draw();
+    }
+  }
+});
+
+$('#footer-other-item #delete').click(async () => {
+  let selectedRows = otherTable.rows('.selected');
+  let selectedRowsData = selectedRows.data();
+  if (selectedRowsData.length == 0) {
+    let options  = {
+      buttons: ["OK"],
+      message: "Please choose an Item to delete !!"
+    }
+    dialog.showMessageBox(remote.getCurrentWindow(), options)
+  } else {
+    let options  = {
+      buttons: ["Yes", "No"],
+      message: "Are you sure to delete these Items !!"
+    }
+    let result = await dialog.showMessageBox(remote.getCurrentWindow(), options);
+    if ( result.response === 0 ) {
+      for (let i = 0; i < selectedRowsData.length; i += 1) {
+        let id = selectedRowsData[i][0];
+        try {
+          otherModel.deleteOtherItem(id);
+        } catch (error) {
+          dialog.showMessageBox(remote.getCurrentWindow(), {type: 'warning', message: "Can't delete " + id})
         }
       }
       selectedRows.remove().draw();
