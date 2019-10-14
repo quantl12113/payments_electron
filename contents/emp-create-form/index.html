@@ -48,7 +48,8 @@
 	
 	<div class="element-input">
 		<label class="title"><span>Tiền 立替 (JPY)</span></label>
-		<div class="item-cont"><input class="large" type="text" name="input2" placeholder="Tiền 立替 (JPY)"/>
+		<div class="item-cont">
+			<input class="large" type="text" id="change-cost" name="input2" placeholder="Tiền 立替 (JPY)"/>
 			<span class="icon-place"></span>
 		</div>
 	</div>
@@ -56,7 +57,7 @@
 	<div class="element-number">
 		<label class="title"><span>Chi phí đi lại (JPY)</span></label>
 		<div class="item-cont">
-			<input class="large" type="number" min="0" max="100" name="number" placeholder="Chi phí đi lại" value=""/>
+			<input class="large" type="number" id="travel-cost" min="0" max="100" name="number" placeholder="Chi phí đi lại" value=""/>
 			<span class="icon-place"></span>
 		</div>
 	</div>
@@ -66,7 +67,7 @@
 		<div class="item-cont">
 			<div class="large">
 				<span>
-					<select name="select" >
+					<select name="select" id="other-id">
 						<option value="option 1">option 1</option>
 						<option value="option 2">option 2</option>
 						<option value="option 3">option 3</option>
@@ -80,7 +81,7 @@
 	<div class="element-input">
 		<label class="title"><span>Other cost</span></label>
 		<div class="item-cont">
-			<input class="large" type="text" name="input3" placeholder="Other cost"/>
+			<input class="large" id="other-cost" type="text" name="input3" placeholder="Other cost"/>
 			<span class="icon-place"></span>
 		</div>
 	</div>

@@ -3,14 +3,16 @@ var mysql = require('mysql');
 
 // Set database connection
 const CONFIG = {
-  host: '192.168.100.8',
+  // host: '192.168.100.8',
+  // user: 'root',
+  // password: 'vietis@123',
+  // database: 'payslip',
+  port: 3306,
+  host: 'localhost',
   user: 'root',
-  password: 'vietis@123',
-  // host: 'localhost',
-  // password: 'root',
-  // port: 8889,
-  database: 'payslip',
-  port: 3306
+  password: '',
+  database: 'payments',
+
 };
 
 // Create a MySQL connection
