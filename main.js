@@ -42,9 +42,9 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', function () {
-  require('./lib/employee-model').getEmpByCurrentMonth();
-  require('./lib/other-model').getOther();
+app.on('ready', async function () {
+  await require('./lib/employee-model').getEmpByCurrentMonth();
+  await require('./lib/other-model').getOther();
   createWindow();
 })
 
@@ -65,7 +65,7 @@ app.on('browser-window-created',function(e,window) {
   window.setMenu(null);
 });
 
-ipc.on('create-employee', (event, args) => {
-  console.log(args[1]);
+ipc.on('create-employee',async function (event, args) {
+  await require('./lib/employee-model').getEmpByCurrentMonth();
   event.returnValue = 'Main said I received your Sync message';
  });

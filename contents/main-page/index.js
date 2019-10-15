@@ -134,8 +134,9 @@ async function createFormEdit() {
   // and load the index.html of the app.
   editForm.loadFile('./contents/emp-create-form/index.html')
   editForm.once('ready-to-show', () => {
-    editForm.show()
+    editForm.show();
   })
+
   // Open the DevTools.
   editForm.webContents.openDevTools()
 
@@ -147,8 +148,6 @@ async function createFormEdit() {
 
 $('#footer-emp #add').click(async ()=>{
   let result = await createFormEdit();
-  console.log(result);
-  
 })
 
 $('#footer-emp #delete').click(async () => {
