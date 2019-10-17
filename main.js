@@ -66,6 +66,6 @@ app.on('browser-window-created',function(e,window) {
 });
 
 ipc.on('create-employee',async function (event, args) {
-  await require('./lib/employee-model').getEmpByCurrentMonth();
+  console.log(args);
   event.returnValue = 'Main said I received your Sync message';
  });

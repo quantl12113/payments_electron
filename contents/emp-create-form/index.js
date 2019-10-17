@@ -38,15 +38,22 @@ $('#create-employ-submit').click(async () => {
   try {
     const employAdded = await empModel.addEmployee(employ);
     cost.user_id = employAdded.insertId;
-  
     await costModel.addCost(cost);
     await db.commit();
     const currentWindow = remote.getCurrentWindow();
     currentWindow.close();
-    ipc.sendSync('create-employee','success');
+    let data = {
+      status: 'success',
+      employee: employ,
+      cost: cost,
+    }
+    ipc.sendSync('create-employee', data);
   } catch (error) {
     await db.rollback();
-    ipc.sendSync('create-employee','failed');
+    let data = {
+      status: 'false',
+    }
+    ipc.sendSync('create-employee', data);
   } finally {
     await db.close();
   }
