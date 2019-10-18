@@ -16,7 +16,7 @@ const makeDb = require('../../config/db');
 const ipc = require('electron').ipcRenderer;
 
 $(document).ready(function () {
-  $.each(otherModel.otherItems, function (value) {
+  $.each(otherModel.otherItems, function (index, value) {
     $("#other-id").append(`<option value="${value.id}">${value.value}</option>`)
   })
 });
@@ -24,6 +24,7 @@ $(document).ready(function () {
 $('#create-employ-submit').click(async () => {
   const employ = {};
   const cost = {};
+  let status = '';
   employ.code = $("#employee-code").val();
   employ.name = $("#employee-name").val();
   employ.email = $("#employee-email").val();
@@ -40,21 +41,25 @@ $('#create-employ-submit').click(async () => {
     cost.user_id = employAdded.insertId;
     await costModel.addCost(cost);
     await db.commit();
+    status = 'success';
+    const data = {
+      status,
+      employ,
+      cost
+    }
+    await ipc.sendSync('create-employee', data);
     const currentWindow = remote.getCurrentWindow();
     currentWindow.close();
-    let data = {
-      status: 'success',
-      employee: employ,
-      cost: cost,
-    }
-    ipc.sendSync('create-employee', data);
   } catch (error) {
     await db.rollback();
-    let data = {
-      status: 'false',
+    status = 'false';
+  } finally {
+    const data = {
+      status,
+      employ,
+      cost
     }
     ipc.sendSync('create-employee', data);
-  } finally {
     await db.close();
-  }
+  };
 });

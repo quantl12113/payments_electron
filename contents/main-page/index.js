@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const empModel = remote.require('./lib/employee-model');
 const otherModel = remote.require('./lib/other-model');
+const ipc = require('electron').ipcRenderer;
 
 let empData = new Array;
 let otherData = new Array;
@@ -237,3 +238,8 @@ async function getListFilesFromDir(startPath, filter, output) {
   };
   return output;
 };
+
+ipc.on('create-employee',async function (event, args) {
+  console.log(args);
+  event.returnValue = 'Main said I received your Sync message';
+});

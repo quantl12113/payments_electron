@@ -1,7 +1,8 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
-const ipc = require('electron').ipcMain;
+const ipcMain = require('electron').ipcMain;
+const ipcRenderer = require('electron').ipcRenderer;
 Date.prototype.yyyymm = function() {
   var mm = this.getMonth() + 1;
 
@@ -65,7 +66,9 @@ app.on('browser-window-created',function(e,window) {
   window.setMenu(null);
 });
 
-ipc.on('create-employee',async function (event, args) {
+ipcMain.on('create-employee',async (event, args) => {
+  console.log("11111");
   console.log(args);
+  ipcRenderer.sendSync('create-employee', args);
   event.returnValue = 'Main said I received your Sync message';
- });
+});
