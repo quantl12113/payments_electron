@@ -239,7 +239,19 @@ async function getListFilesFromDir(startPath, filter, output) {
   return output;
 };
 
-ipc.on('create-employee',async function (event, args) {
-  console.log(args);
-  event.returnValue = 'Main said I received your Sync message';
+ipc.on('create-employee-reply',async function (event, args) {
+  $(document).ready(function() {
+    var t = $('#employee').DataTable();
+    t.row.add( [
+        args.employ.code,
+        args.employ.name,
+        args.employ.email,
+        args.cost.change_cost,
+        args.cost.travel_cost,
+        args.cost.other,
+        args.cost.other_cost,
+        "",
+        args.employ.date
+    ] ).draw( false );
+} );  
 });

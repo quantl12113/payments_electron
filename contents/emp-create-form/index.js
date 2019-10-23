@@ -33,6 +33,7 @@ $('#create-employ-submit').click(async () => {
   cost.change_cost = $("#change-cost").val();
   cost.travel_cost = $("#travel-cost").val();
   cost.other_id = $("#other-id").val();
+  cost.other = $("#other-id option:selected").text();
   cost.other_cost = $("#other-cost").val();
 
   let db = makeDb();
@@ -48,18 +49,12 @@ $('#create-employ-submit').click(async () => {
       cost
     }
     await ipc.sendSync('create-employee', data);
-    const currentWindow = remote.getCurrentWindow();
-    currentWindow.close();
+    const currentWindow = await remote.getCurrentWindow();
+    await currentWindow.close();
   } catch (error) {
     await db.rollback();
     status = 'false';
   } finally {
-    const data = {
-      status,
-      employ,
-      cost
-    }
-    ipc.sendSync('create-employee', data);
-    await db.close();
+
   };
 });
